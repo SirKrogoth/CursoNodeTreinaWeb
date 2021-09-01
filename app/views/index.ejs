@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos</title>
+</head>
+<body>
+    <h1>Treinaweb Cursos</h1>
+
+    <ul>
+        <% for(var i = 0; i < cursos.length; i++){ %>
+            <li>
+                <%= cursos[i].nome %> - <%= cursos[i].categoria %>
+            </li>
+        <% } %>
+    </ul>
+
+    <form action="" onsubmit="createCourse(event)">
+        <input type="text" name="nome" id="nome" placeholder="Nome" autofocus>
+        <input type="text" name="categoria" id="categoria">
+        <input type="submit" value="Criar">
+    </form>
+</body>
+<script>
+    function createCourse(event){
+        event.preventDefault();
+
+        var nome = document.querySelector('#nome').value,
+            categoria = document.querySelector('#categoria').value;
+
+        fetch('/', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({nome, categoria})
+        }).then(resp => resp.json())
+            .then(()=>{location.reload()})
+            .catch(()=>{
+                console.error('Erro interno do servidor.')
+            });
+    }
+</script>
+</html>
